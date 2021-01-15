@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+<div>
+    <div>
+        <!-- only show this element when the isnt on mobile -->
+        <h1>Student Grade Table
+            <small>Grade Average : <span class="avgGrade">100</span></small>
+        </h1>
+        <!-- only show this element when the user gets to a mobile version -->
+        <h3>Student Grade Table
+            <small>Grade Average : <span class="avgGrade">100</span></small>
+        </h3>
+    </div>
+    <div>
+        <h4>Add Student</h4>
+        <div>
+            <span>
+                <span> </span>
+            </span>
+            <input type="text" name="studentName" id="studentName" placeholder="Student Name">
+        </div>
+        <div>
+            <span>
+                <span> </span>
+            </span>
+            <input type="text" name="course" id="studentCourse" placeholder="Student Course">
+        </div>
+        <div >
+            <span >
+                <span > </span>
+            </span>
+            <input type="text" name="studentGrade" id="studentGrade" placeholder="Student Grade">
+        </div>
+        <button type="button" id="addButton">Add</button>
+        <button type="button" id="cancelButton">Cancel</button>
+    </div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Student Course</th>
+                <th>Student Grade</th>
+                <th>Operations</th>
+            </tr>
+            </thead>
+            <tbody id="displayArea">
+                <tr>
+                    <td>BRuce Wayne</td>
+                    <td>Criminal Justice</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Clark Cent</td>
+                    <td>Journalist 101</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Victor Stone</td>
+                    <td>Robotics</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Billy Batson</td>
+                    <td>Math</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+</body>
+
+
+</html>
