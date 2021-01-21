@@ -1,15 +1,15 @@
 <!doctype html>
 <html>
-
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.3.2/firebase.js"></script>
+    <script src="script.js"></script>
     <meta name="viewport" content="initial-scale=1, user-scalable=no">
 </head>
-
 <body>
 <div>
     <div>
@@ -29,27 +29,32 @@
 
     <!--This section goes on the right of the page-->
     <div class = "row">
+
         <h4>Add Student</h4>
-        <div>
-            <span>
-                <span> </span>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user"></span>
             </span>
-            <input type="text" name="studentName" id="studentName" placeholder="Student Name">
+            <input id="s-name-input" type="text" class="form-control" name="sName" placeholder="Student Name" required>
         </div>
-        <div>
-            <span>
-                <span> </span>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-education"></span>
             </span>
-            <input type="text" name="course" id="studentCourse" placeholder="Student Course">
+            <input id="s-course-input" type="text" class="form-control" name="course" placeholder="Student Course" required>
         </div>
-        <div >
-            <span >
-                <span > </span>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-list-alt"></span>
             </span>
-            <input type="text" name="studentGrade" id="studentGrade" placeholder="Student Grade">
+            <input id="s-grade-input" type="number" class="form-control" name="grade" placeholder="Student Grade" required>
         </div>
-        <button type="button" id="addButton">Add</button>
-        <button type="button" id="cancelButton">Cancel</button>
+        <div class="input-group">
+          <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn">Add</button>
+          <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
+        </div>
+        <hr>
+    </form>
     </div>
 
     <!--This section goes on the left of the screen-->
@@ -57,7 +62,7 @@
         <table>
             <thead>
             <tr>
-                <th>Student Name</th>
+                <th>Student</th>
                 <th>Student Course</th>
                 <th>Student Grade</th>
                 <th>Operations</th>
@@ -89,14 +94,66 @@
                     <td><button>Delete</button></td>
                 </tr>
             </tbody>
-
         </table>
+    </div>
     </div>
 </div>
 
+<!--======== Edit Modal ===========-->
+<!-- line modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
 
+                <!-- content goes here -->
+                <form id="edit-form" class="form-horizontal">
+                    <fieldset>
 
+                        <!-- Form Name -->
+                        <legend>Edit Student</legend>
+
+                        <!-- Name input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="modal-edit-name">Student Name</label>
+                            <div class="col-md-4">
+                                <input id="modal-edit-name" name="modal-edit-name" type="text" placeholder="Student Name" class="form-control input-md">
+                                <span class="help-block">Edit Name</span>
+                            </div>
+                        </div>
+
+                        <!-- Course input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="modal-edit-course">Student Course</label>
+                            <div class="col-md-4">
+                                <input id="modal-edit-course" name="modal-edit-course" type="text" placeholder="Student Course" class="form-control input-md">
+                                <span class="help-block">Edit Course</span>
+                            </div>
+                        </div>
+
+                        <!-- Grade input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="modal-edit-grade">Student Grade</label>
+                            <div class="col-md-4">
+                                <input id="modal-edit-grade" name="modal-edit-grade" type="text" placeholder="Student Grade" class="form-control input-md">
+                                <span class="help-block">Edit Grade</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="student-id" name="sid" value="" />
+
+                        <!-- Confirm Edit Button  -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="confirm-edit">Confirm Edit</label>
+                            <div class="col-md-8">
+                                <button id="confirm-edit" name="confirm-edit" type="button" class="btn btn-success">Confirm</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
-
-
 </html>
