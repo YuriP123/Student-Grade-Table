@@ -12,7 +12,8 @@
 </head>
 <body>
 
-<div class="col-lg-8 mx-auto pb-3"  style="border-bottom: 1px solid rgb(5, 243, 17)">
+<div class="d-flex flex-column">
+<div class="col-lg-8 mx-auto pb-3 w-100"  style="outline: 1px solid rgb(5, 243, 17)">
     <!-- only show this element when this is on desktop -->
     <div class="d-none d-md-block">
         <h1>Student Grade Table
@@ -28,74 +29,78 @@
 </div>
 
 <!--This section goes on the right of the page -->
-<div class = "row mx-auto pb-3 col-lg pt-5"  style="border-bottom: 1px solid rgb(255, 0, 0)">
-    <h4>Add Student</h4>
-    <div class="input-group form-group">
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-user"></span>
-        </span>
-        <input id="s-name-input" type="text" class="form-control" name="sName" placeholder="Student Name" required>
+<div>
+    <div class = "pull-right row pb-3 col-md-4 pt-5"  style="outline: 1px solid rgb(255, 0, 0)">
+        <h4>Add Student</h4>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user"></span>
+            </span>
+            <input id="s-name-input" type="text" class="form-control" name="sName" placeholder="Student Name" required>
+        </div>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-education"></span>
+            </span>
+            <input id="s-course-input" type="text" class="form-control" name="course" placeholder="Student Course" required>
+        </div>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-list-alt"></span>
+            </span>
+            <input id="s-grade-input" type="number" class="form-control" name="grade" placeholder="Student Grade" required>
+        </div>
+        <div class="input-group">
+            <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn">Add</button>
+            <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
+        </div>
+    </form>
     </div>
-    <div class="input-group form-group">
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-education"></span>
-        </span>
-        <input id="s-course-input" type="text" class="form-control" name="course" placeholder="Student Course" required>
+
+
+
+    <!--This section goes on the left of the screen on desktop-->
+    <div class = "pull-left row col-md-8" style="outline: 1px solid rgb(255, 0, 0)">
+        <table>
+            <thead>
+                <tr style="border-bottom: 1px solid rgb(194, 194, 194)">
+                    <th>Student</th>
+                    <th>Student Course</th>
+                    <th>Student Grade</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+            </div>
+            
+            <tbody class="displayArea pt-5">
+                <tr>
+                    <td>Bruce Wayne</td>
+                    <td>Criminal Justice</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Clark Cent</td>
+                    <td>Journalist 101</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Victor Stone</td>
+                    <td>Robotics</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Billy Batson</td>
+                    <td>Math</td>
+                    <td>100</td>
+                    <td><button>Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="input-group form-group">
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-list-alt"></span>
-        </span>
-        <input id="s-grade-input" type="number" class="form-control" name="grade" placeholder="Student Grade" required>
-    </div>
-    <div class="input-group">
-        <button id="add-student-btn" type="button" class="btn btn-success" name="addBtn">Add</button>
-        <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
-    </div>
-</form>
 </div>
 
-
-
-<!--This section goes on the left of the screen-->
-<div class = "row col-md-8 mx-auto">
-    <table>
-        <thead>
-            <tr style="border-bottom: 1px solid rgb(194, 194, 194)">
-                <th>Student</th>
-                <th>Student Course</th>
-                <th>Student Grade</th>
-                <th>Operations</th>
-            </tr>
-            </thead>
-        </div>
-        
-        <tbody class="displayArea pt-5">
-            <tr>
-                <td>Bruce Wayne</td>
-                <td>Criminal Justice</td>
-                <td>100</td>
-                <td><button>Delete</button></td>
-            </tr>
-            <tr>
-                <td>Clark Cent</td>
-                <td>Journalist 101</td>
-                <td>100</td>
-                <td><button>Delete</button></td>
-            </tr>
-            <tr>
-                <td>Victor Stone</td>
-                <td>Robotics</td>
-                <td>100</td>
-                <td><button>Delete</button></td>
-            </tr>
-            <tr>
-                <td>Billy Batson</td>
-                <td>Math</td>
-                <td>100</td>
-                <td><button>Delete</button></td>
-            </tr>
-        </tbody>
-    </table>
 </body>
 </html>
