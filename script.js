@@ -19,7 +19,7 @@ $(document).ready(initializeApp);
  *  { name: 'Jill', course: 'Comp Sci', grade: 85 }
  * ];
  */
-var student_array;
+var studentArray = [];
 var gradeAverage;
 
 /***************************************************************************************************
@@ -28,8 +28,10 @@ var gradeAverage;
  * returns: {undefined} none
  * initializes the application, including adding click handlers and pulling in any data from the server, in later versions
  */
-function initializeApp() {
 
+function initializeApp() {
+      //gets all event handlers activated
+      handleAddClicked();
 }
 
 
@@ -51,9 +53,22 @@ function addClickHandlersToElements() {
  * return: 
        none
  */
-$('#add').click(function(){
-      addStudent();
-});
+function isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n); //function to check if name contains a number
+}
+function handleAddClicked(){
+      //checks if the names are valid
+      $('#add').click(function(){
+            nameCheck = $("#s-name-input").val();
+            courseCheck = $("#s-course-input").val();
+            gradeCheck = $("#s-grade-input").val();
+
+            //Exception handling
+            if(isNumeric(nameCheck)==false){
+                  addStudent(nameCheck,courseCheck,gradeCheck);
+            }
+      });
+}
 
 
 /***************************************************************************************************
@@ -74,15 +89,25 @@ function handleCancelClick() {
  * return undefined
  * calls clearAddStudentFormInputs, updateStudentList
  */
-function addStudent(name) {
-      alert("add student called");
-      stdName = $("#s-name-input").val();
-      stdCourse = $("#s-course-input").val();
-      stdGrade = $("#s-grade-input").val();
-      alert("The name is: " + stdName);
-      alert("The course is: " + stdCourse);
-      alert("The name is: " + stdGrade);
 
+ //function to create student object
+function studentObject(name,course,grade){
+      alert("student Object function called");
+      this.name = name;
+      this.course = course;
+      this.grade = grade;
+}
+
+function addStudent(stdName,stdCourse,stdGrade) {
+      alert("add student function called");
+      /*alert("The name is: " + stdName);
+      alert("The course is: " + stdCourse);
+      alert("The name is: " + stdGrade);*/
+
+      //this student variable will contain all info using the studentObject function
+      var student = new studentObject(stdName,stdCourse,stdGrade);
+      studentArray.push(student);
+      alert("student name of element 0 is: " + studentArray[0].name);
 }
 
 
