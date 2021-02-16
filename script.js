@@ -104,19 +104,23 @@ function clearAddStudentFormInputs(click) {
  * into the .student_list tbody
  * param {object} studentObj a single student object with course, name, and grade inside
  */
+
+ //keeps track of what index of the student array needs to be outputted
 var arrayIndex = 0;
 function renderStudentOnDom(newStudent) {
       console.log("renderstudentondom is called");
-      console.log(arrayIndex);
+
+      //variables that refers the table in the html file
       var table = document.getElementById("tblEntAttributes");
       var rowCount = table.rows.length;
       var row = table.insertRow(rowCount);
 
-
+      //insert the info in the 3 cells in each row
       row.insertCell(0).innerHTML= studentArray[arrayIndex].name;
       row.insertCell(1).innerHTML= studentArray[arrayIndex].course;
       row.insertCell(2).innerHTML= studentArray[arrayIndex].grade;
 
+      //prepare the next set of info for the next row
       arrayIndex++;
 
 }
@@ -145,12 +149,16 @@ function calculateGradeAverage() {
       var total = 0;
       var count = 0;
       var gradeAverage;
+
+      //goes through every grade in the array and calulates the average
       for(i=0;i<studentArray.length;i++){
             total = total + Number(studentArray[i].grade);
             count++;
       }
       gradeAverage = total/count;
       gradeAverage.toFixed(2);
+
+      //calling function to output the average
       renderGradeAverage(gradeAverage);
 }
 
@@ -161,7 +169,7 @@ function calculateGradeAverage() {
  * returns {undefined} none
  */
 function renderGradeAverage(gradeAverage) {
-
+      //outputs the updated grade on the webpage
       console.log("rendergradeaverage called");
       $('small').html("GPA: " + gradeAverage);
 
