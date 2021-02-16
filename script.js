@@ -1,26 +1,8 @@
-/* information about jsdocs: 
-* param: http://usejsdoc.org/tags-param.html#examples
-* returns: http://usejsdoc.org/tags-returns.html
-* 
-/**
- * Listen for the document to load and initialize the application
- */
+/* Listen for the document to load and initialize the application*/
 $(document).ready(initializeApp);
 
-/**
- * Define all global variables here.
- */
-/***********************
- * student_array - global array to hold student objects
- * type {Array}
- * example of student_array after input:
- * student_array = [
- *  { name: 'Jake', course: 'Math', grade: 85 },
- *  { name: 'Jill', course: 'Comp Sci', grade: 85 }
- * ];
- */
+/* Define all global variables here. */
 var studentArray = [];
-var gradeAverage;
 
 /***************************************************************************************************
  * initializeApp
@@ -92,22 +74,20 @@ function handleCancelClick() {
 
  //function to create student object
 function studentObject(name,course,grade){
-      alert("student Object function called");
+      //this function takes the valid data from user and compacts it into one super variable 
       this.name = name;
       this.course = course;
       this.grade = grade;
 }
 
 function addStudent(stdName,stdCourse,stdGrade) {
-      alert("add student function called");
-      /*alert("The name is: " + stdName);
-      alert("The course is: " + stdCourse);
-      alert("The name is: " + stdGrade);*/
-
       //this student variable will contain all info using the studentObject function
       var student = new studentObject(stdName,stdCourse,stdGrade);
+
+      //add the student into the list of all students
       studentArray.push(student);
-      alert("student name of element 0 is: " + studentArray[0].name);
+      console.log(studentArray);
+      updateStudentList();
 }
 
 
@@ -124,8 +104,20 @@ function clearAddStudentFormInputs(click) {
  * into the .student_list tbody
  * param {object} studentObj a single student object with course, name, and grade inside
  */
+var arrayIndex = 0;
 function renderStudentOnDom(newStudent) {
+      console.log("renderstudentondom is called");
+      console.log(arrayIndex);
+      var table = document.getElementById("tblEntAttributes");
+      var rowCount = table.rows.length;
+      var row = table.insertRow(rowCount);
 
+
+      row.insertCell(0).innerHTML= studentArray[arrayIndex].name;
+      row.insertCell(1).innerHTML= studentArray[arrayIndex].course;
+      row.insertCell(2).innerHTML= studentArray[arrayIndex].grade;
+
+      arrayIndex++;
 
 }
 
@@ -137,7 +129,9 @@ function renderStudentOnDom(newStudent) {
  * calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
  */
 function updateStudentList(newStudent) {
-
+      console.log("update student list called");
+      renderStudentOnDom();
+      calculateGradeAverage();
 
 }
 
@@ -147,9 +141,17 @@ function updateStudentList(newStudent) {
  * param: {array} students  the array of student objects
  * returns {number}
  */
-function calculateGradeAverage(student_array) {
-
-
+function calculateGradeAverage() {
+      var total = 0;
+      var count = 0;
+      var gradeAverage;
+      for(i=0;i<studentArray.length;i++){
+            total = total + Number(studentArray[i].grade);
+            count++;
+      }
+      gradeAverage = total/count;
+      gradeAverage.toFixed(2);
+      renderGradeAverage(gradeAverage);
 }
 
 
@@ -160,6 +162,8 @@ function calculateGradeAverage(student_array) {
  */
 function renderGradeAverage(gradeAverage) {
 
+      console.log("rendergradeaverage called");
+      $('small').html("GPA: " + gradeAverage);
 
 }
 
@@ -169,4 +173,6 @@ function renderGradeAverage(gradeAverage) {
  * return undefined
  * calls updateStudentList
  */
-function removeStudent() {}
+function removeStudent() {
+
+}

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div class="d-flex flex-column">
+<div>
 <div class="col-lg-8 mx-auto pb-3 w-100"  style="outline: 1px solid rgb(5, 243, 17)">
     <!-- only show this element when this is on desktop -->
     <div class="d-none d-md-block">
@@ -28,7 +28,6 @@
 </div>
 
 <!--This section goes on the right of the page -->
-<div>
     <div class = "pull-right row pb-3 col-md-4 pt-5"  style="outline: 1px solid rgb(255, 0, 0)">
         <h4>Add Student</h4>
         <div class="input-group form-group">
@@ -55,26 +54,25 @@
             <button id="add" type="button" class="btn btn-success" name="addBtn"> Add </button>
             <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
         </div>
-    </form>
     </div>
 
 
 
     <!--This section goes on the left of the screen on desktop-->
     <div class = "pull-left row col-md-8" style="outline: 1px solid rgb(255, 0, 0)">
-        <table>
+        <table id="tblEntAttributes">
             <thead>
                 <tr style="border-bottom: 1px solid rgb(194, 194, 194)">
                     <th>Student</th>
                     <th>Student Course</th>
                     <th>Student Grade</th>
-                    <th>Operations</th>
                 </tr>
-                </thead>
+            </thead>
+            <div>
+                <tbody id="tblbody" class="displayArea pt-5">
+
+                </tbody>
             </div>
-            
-            <tbody class="displayArea pt-5">
-            </tbody>
         </table>
     </div>
 </div>
