@@ -3,6 +3,7 @@ $(document).ready(initializeApp);
 
 /* Define all global variables here. */
 var studentArray = [];
+var cancelbutton = '<button id="delete-btn" class="btn btn-danger">Delete</button>'
 
 /***************************************************************************************************
  * initializeApp
@@ -14,6 +15,8 @@ var studentArray = [];
 function initializeApp() {
       //gets all event handlers activated
       handleAddClicked();
+      handleCancelClick();
+      handleDeleteClick();
 }
 
 
@@ -46,8 +49,11 @@ function handleAddClicked(){
             gradeCheck = $("#s-grade-input").val();
 
             //Exception handling
-            if(isNumeric(nameCheck)==false){
+            if(isNumeric(nameCheck)==false || Number(gradeCheck)<=100 || nameCheck == ""|| courseCheck == "" || gradeCheck == ""){
                   addStudent(nameCheck,courseCheck,gradeCheck);
+            }
+            else{
+                  alert("Invalid Input");
             }
       });
 }
@@ -60,9 +66,24 @@ function handleAddClicked(){
  * @calls: clearAddStudentFormInputs
  */
 function handleCancelClick() {
-
-
+      $('#cancel-btn').click(function(){
+            clearAddStudentFormInputs();
+      });
 }
+
+
+/***************************************************************************************************
+ * handleDeleteClick - Event Handler when user clicks the delete button, should completely delete that row in the SGT
+ * param: {undefined} none
+ * returns: {undefined} none
+ * @calls: clearAddStudentFormInputs
+ */
+function handleDeleteClick() {
+      $(document).on("click", "#delete-btn", function(){
+            removeStudent();
+        });
+}
+
 
 
 /***************************************************************************************************
@@ -94,9 +115,11 @@ function addStudent(stdName,stdCourse,stdGrade) {
 /***************************************************************************************************
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
-function clearAddStudentFormInputs(click) {
-
-
+function clearAddStudentFormInputs() {
+      let btnClear = document.querySelector('#cancel-btn');
+      let inputs = document.querySelectorAll('input');
+      
+      inputs.forEach(input =>  input.value = '');
 }
 
 /***************************************************************************************************
@@ -105,24 +128,25 @@ function clearAddStudentFormInputs(click) {
  * param {object} studentObj a single student object with course, name, and grade inside
  */
 
- //keeps track of what index of the student array needs to be outputted
-var arrayIndex = 0;
 function renderStudentOnDom(newStudent) {
       console.log("renderstudentondom is called");
-
       //variables that refers the table in the html file
       var table = document.getElementById("tblEntAttributes");
       var rowCount = table.rows.length;
-      var row = table.insertRow(rowCount);
+      arrayLength = studentArray.length;
+      
 
+      for(i=rowCount-1; i>=1;i--){
+            table.deleteRow(i);
+      }
       //insert the info in the 3 cells in each row
-      row.insertCell(0).innerHTML= studentArray[arrayIndex].name;
-      row.insertCell(1).innerHTML= studentArray[arrayIndex].course;
-      row.insertCell(2).innerHTML= studentArray[arrayIndex].grade;
-
-      //prepare the next set of info for the next row
-      arrayIndex++;
-
+      for(var i=0; i<arrayLength; i++){
+            var row = table.insertRow(i+1);
+            row.insertCell(0).innerHTML= studentArray[i].name;
+            row.insertCell(1).innerHTML= studentArray[i].course;
+            row.insertCell(2).innerHTML= studentArray[i].grade;
+            row.insertCell(3).innerHTML= cancelbutton;
+      }
 }
 
 
@@ -169,7 +193,7 @@ function calculateGradeAverage() {
  * returns {undefined} none
  */
 function renderGradeAverage(gradeAverage) {
-      //outputs the updated grade on the webpage
+      //outputs the updated grade average on the webpage
       console.log("rendergradeaverage called");
       $('small').html("GPA: " + gradeAverage);
 
@@ -181,6 +205,15 @@ function renderGradeAverage(gradeAverage) {
  * return undefined
  * calls updateStudentList
  */
-function removeStudent() {
-
+function removeStudent(){
+      var index;
+      var table = document.getElementById("tblEntAttributes");
+      var rowLength = table.rows.length;
+      for(var i = +1; i < rowLength; i++){
+            table.rows[i].cells[3].onclick = function(){
+                  index = this.parentElement.rowIndex;
+                  studentArray.splice(index-1,1);
+                  table.deleteRow(index);
+            }
+      }
 }
