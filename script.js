@@ -3,7 +3,7 @@ $(document).ready(initializeApp);
 
 /* Define all global variables here. */
 var studentArray = [];
-var cancelbutton = '<button id="delete-btn" class="btn btn-danger">Delete</button>'
+var cancelbutton = '<button class="delete-btn btn btn-danger">Delete</button>'
 
 /***************************************************************************************************
  * initializeApp
@@ -19,41 +19,28 @@ function initializeApp() {
       handleDeleteClick();
 }
 
-
-/***************************************************************************************************
- * addClickHandlerstoElements
- * params {undefined}
- * returns  {undefined}
- *
- */
-function addClickHandlersToElements() {
-
-
-}
-
-
 /***************************************************************************************************
  * handleAddClicked - Event Handler when user clicks the add button
  * param {object} event  The event object from the click
  * return: 
        none
  */
-function isNumeric(n) {
-      return !isNaN(parseFloat(n)) && isFinite(n); //function to check if name contains a number
-}
 function handleAddClicked(){
       //checks if the names are valid
       $('#add').click(function(){
-            nameCheck = $("#s-name-input").val();
-            courseCheck = $("#s-course-input").val();
-            gradeCheck = $("#s-grade-input").val();
+            var nameCheck = $("#s-name-input").val();
+            var courseCheck = $("#s-course-input").val();
+            var gradeCheck = $("#s-grade-input").val();
 
             //Exception handling
-            if(isNumeric(nameCheck)==false || Number(gradeCheck)<=100 || nameCheck == ""|| courseCheck == "" || gradeCheck == ""){
-                  addStudent(nameCheck,courseCheck,gradeCheck);
+            if(/\d/.test(nameCheck)==true || Number(gradeCheck)>=100 || nameCheck == "" || courseCheck == "" || gradeCheck == ""){
+                  $('#std-form').addClass('animated shake');
+                  setTimeout(function() { 
+                        $('#std-form').removeClass('animated shake');
+                    }, 1000);
             }
             else{
-                  alert("Invalid Input");
+                  addStudent(nameCheck,courseCheck,gradeCheck);
             }
       });
 }
@@ -79,9 +66,9 @@ function handleCancelClick() {
  * @calls: clearAddStudentFormInputs
  */
 function handleDeleteClick() {
-      $(document).on("click", "#delete-btn", function(){
+      $(document).on("click", ".delete-btn", function(){
             removeStudent();
-        });
+      });
 }
 
 
@@ -93,17 +80,13 @@ function handleDeleteClick() {
  * calls clearAddStudentFormInputs, updateStudentList
  */
 
- //function to create student object
-function studentObject(name,course,grade){
-      //this function takes the valid data from user and compacts it into one super variable 
-      this.name = name;
-      this.course = course;
-      this.grade = grade;
-}
-
 function addStudent(stdName,stdCourse,stdGrade) {
       //this student variable will contain all info using the studentObject function
-      var student = new studentObject(stdName,stdCourse,stdGrade);
+      var student = {
+            name: stdName,
+            course: stdCourse,
+            grade: stdGrade
+        };
 
       //add the student into the list of all students
       studentArray.push(student);
@@ -116,10 +99,9 @@ function addStudent(stdName,stdCourse,stdGrade) {
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
 function clearAddStudentFormInputs() {
-      let btnClear = document.querySelector('#cancel-btn');
-      let inputs = document.querySelectorAll('input');
-      
-      inputs.forEach(input =>  input.value = '');
+      $('#s-name-input').val('');
+      $('#s-course-input').val('');
+      $('#s-grade-input').val('');
 }
 
 /***************************************************************************************************
@@ -129,11 +111,10 @@ function clearAddStudentFormInputs() {
  */
 
 function renderStudentOnDom(newStudent) {
-      console.log("renderstudentondom is called");
       //variables that refers the table in the html file
-      var table = document.getElementById("tblEntAttributes");
+      var table = document.getElementById("tblAttributes");
       var rowCount = table.rows.length;
-      arrayLength = studentArray.length;
+      var arrayLength = studentArray.length;
       
 
       for(i=rowCount-1; i>=1;i--){
@@ -147,6 +128,8 @@ function renderStudentOnDom(newStudent) {
             row.insertCell(2).innerHTML= studentArray[i].grade;
             row.insertCell(3).innerHTML= cancelbutton;
       }
+      
+      $("#tblAttributes tr:last").addClass('animated fadeInUp');
 }
 
 
@@ -157,10 +140,8 @@ function renderStudentOnDom(newStudent) {
  * calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
  */
 function updateStudentList(newStudent) {
-      console.log("update student list called");
       renderStudentOnDom();
       calculateGradeAverage();
-
 }
 
 
@@ -194,7 +175,6 @@ function calculateGradeAverage() {
  */
 function renderGradeAverage(gradeAverage) {
       //outputs the updated grade average on the webpage
-      console.log("rendergradeaverage called");
       $('small').html("GPA: " + gradeAverage);
 
 }
@@ -207,7 +187,7 @@ function renderGradeAverage(gradeAverage) {
  */
 function removeStudent(){
       var index;
-      var table = document.getElementById("tblEntAttributes");
+      var table = document.getElementById("tblAttributes");
       var rowLength = table.rows.length;
       for(var i = +1; i < rowLength; i++){
             table.rows[i].cells[3].onclick = function(){
@@ -216,4 +196,5 @@ function removeStudent(){
                   table.deleteRow(index);
             }
       }
+      calculateGradeAverage();
 }
