@@ -4,6 +4,7 @@ $(document).ready(initializeApp);
 /* Define all global variables here. */
 var studentArray = [];
 var cancelbutton = '<button class="delete-btn btn btn-danger">Delete</button>'
+var updatebutton = '<button class="update-btn btn btn-info">Update</button>'
 
 /***************************************************************************************************
  * initializeApp
@@ -91,6 +92,7 @@ function addStudent(stdName,stdCourse,stdGrade) {
       //add the student into the list of all students
       studentArray.push(student);
       console.log(studentArray);
+      // clearAddStudentFormInputs()
       updateStudentList();
 }
 
@@ -127,6 +129,8 @@ function renderStudentOnDom(newStudent) {
             row.insertCell(1).innerHTML= studentArray[i].course;
             row.insertCell(2).innerHTML= studentArray[i].grade;
             row.insertCell(3).innerHTML= cancelbutton;
+            // row.insertCell(4).innerHTML= updatebutton;
+
       }
       
       $("#tblAttributes tr:last").addClass('animated fadeInUp');
@@ -151,16 +155,16 @@ function updateStudentList(newStudent) {
  * returns {number}
  */
 function calculateGradeAverage() {
-      var total = 0;
-      var count = 0;
+      var totalGrade = 0;
+      var countGrade = 0;
       var gradeAverage;
 
       //goes through every grade in the array and calulates the average
       for(i=0;i<studentArray.length;i++){
-            total = total + Number(studentArray[i].grade);
-            count++;
+            totalGrade = totalGrade + Number(studentArray[i].grade);
+            countGrade++;
       }
-      gradeAverage = total/count;
+      gradeAverage = totalGrade/countGrade;
       gradeAverage.toFixed(2);
 
       //calling function to output the average
@@ -175,7 +179,7 @@ function calculateGradeAverage() {
  */
 function renderGradeAverage(gradeAverage) {
       //outputs the updated grade average on the webpage
-      $('small').html("GPA: " + gradeAverage);
+      $('.gradeHeader span').html(gradeAverage);
 
 }
 
