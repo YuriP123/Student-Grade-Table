@@ -3,6 +3,7 @@ $(document).ready(initializeApp);
 
 /* Define all global variables here. */
 var studentArray = [];
+var isEmpty = true;
 var cancelbutton = '<button class="delete-btn btn btn-danger">Delete</button>'
 var updatebutton = '<button class="update-btn btn btn-info">Update</button>'
 
@@ -67,8 +68,10 @@ function handleCancelClick() {
  * @calls: clearAddStudentFormInputs
  */
 function handleDeleteClick() {
-      $(document).on("click", ".delete-btn", function(){
-            removeStudent();
+      $('#tb1Body').on("click", ".delete-btn", function(){
+            var index = $(this).closest('tr').index();
+            $(this).closest('tr').remove();
+            removeStudent(index);
       });
 }
 
@@ -91,7 +94,6 @@ function addStudent(stdName,stdCourse,stdGrade) {
 
       //add the student into the list of all students
       studentArray.push(student);
-      console.log(studentArray);
       // clearAddStudentFormInputs()
       updateStudentList();
 }
@@ -114,26 +116,24 @@ function clearAddStudentFormInputs() {
 
 function renderStudentOnDom(newStudent) {
       //variables that refers the table in the html file
-      var table = document.getElementById("tblAttributes");
-      var rowCount = table.rows.length;
       var arrayLength = studentArray.length;
       
-
-      for(i=rowCount-1; i>=1;i--){
-            table.deleteRow(i);
+      if(isEmpty == false){
+            for(var i=arrayLength-1; i>0;i--){
+                  $("#tb1Body tr").remove(); 
+            }
       }
+
       //insert the info in the 3 cells in each row
       for(var i=0; i<arrayLength; i++){
-            var row = table.insertRow(i+1);
-            row.insertCell(0).innerHTML= studentArray[i].name;
-            row.insertCell(1).innerHTML= studentArray[i].course;
-            row.insertCell(2).innerHTML= studentArray[i].grade;
-            row.insertCell(3).innerHTML= cancelbutton;
+            isEmpty = false;    
+            $('#tb1Body').append("<tr><td>" + studentArray[i].name + "</td>" + "<td>"  + studentArray[i].course + "</td>" + "<td>"  + studentArray[i].grade + "</td>" + "<td>"  + cancelbutton + "</td></tr>");
             // row.insertCell(4).innerHTML= updatebutton;
 
       }
+      var d = $("tb1Body").index(this);
       
-      $("#tblAttributes tr:last").addClass('animated fadeInUp');
+      $("#tblBody tr:last").addClass('animated fadeInUp');
 }
 
 
@@ -143,7 +143,7 @@ function renderStudentOnDom(newStudent) {
  * returns {undefined} none
  * calls renderStudentOnDom, calculateGradeAverage, renderGradeAverage
  */
-function updateStudentList(newStudent) {
+function updateStudentList() {
       renderStudentOnDom();
       calculateGradeAverage();
 }
@@ -151,7 +151,6 @@ function updateStudentList(newStudent) {
 
 /***************************************************************************************************
  * calculateGradeAverage - loop through the global student array and calculate average grade and return that value
- * param: {array} students  the array of student objects
  * returns {number}
  */
 function calculateGradeAverage() {
@@ -189,16 +188,7 @@ function renderGradeAverage(gradeAverage) {
  * return undefined
  * calls updateStudentList
  */
-function removeStudent(){
-      var index;
-      var table = document.getElementById("tblAttributes");
-      var rowLength = table.rows.length;
-      for(var i = +1; i < rowLength; i++){
-            table.rows[i].cells[3].onclick = function(){
-                  index = this.parentElement.rowIndex;
-                  studentArray.splice(index-1,1);
-                  table.deleteRow(index);
-            }
-      }
+function removeStudent(index){
+      studentArray.splice(index,index-1);
       calculateGradeAverage();
 }
