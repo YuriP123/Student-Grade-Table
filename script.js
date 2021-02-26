@@ -55,6 +55,7 @@ function handleAddClicked(){
  * @calls: clearAddStudentFormInputs
  */
 function handleCancelClick() {
+      //this function clears form
       $('#cancel-btn').click(function(){
             clearAddStudentFormInputs();
       });
