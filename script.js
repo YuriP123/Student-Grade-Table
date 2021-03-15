@@ -19,6 +19,7 @@ function initializeApp() {
       handleAddClicked();
       handleCancelClick();
       handleDeleteClick();
+      handleUpdateClick();
 }
 
 /***************************************************************************************************
@@ -35,7 +36,7 @@ function handleAddClicked(){
             var gradeCheck = $("#s-grade-input").val();
 
             //Exception handling
-            if(/\d/.test(nameCheck)==true || Number(gradeCheck)>=100 || nameCheck == "" || courseCheck == "" || gradeCheck == ""){
+            if(/\d/.test(nameCheck)==true || Number(gradeCheck)>100 || nameCheck == "" || courseCheck == "" || gradeCheck == ""){
                   $('#std-form').addClass('animated shake');
                   setTimeout(function() { 
                         $('#std-form').removeClass('animated shake');
@@ -69,9 +70,55 @@ function handleCancelClick() {
  */
 function handleDeleteClick() {
       $('#tb1Body').on("click", ".delete-btn", function(){
-            var index = $(this).closest('tr').index();
+            var trIndex = $(this).closest('tr').index();
             $(this).closest('tr').remove();
-            removeStudent(index);
+            removeStudent(trIndex);
+      });
+}
+
+/***************************************************************************************************
+ * handleUpdateClick - Event Handler when user clicks the update button, should update that row in the SGT
+ * param: {undefined} none
+ * returns: {undefined} none
+ * @calls: clearAddStudentFormInputs
+ */
+function handleUpdateClick(){
+      $('#tb1Body').on("click", ".update-btn", function(){
+            var trIndexupdate = $(this).closest('tr').index();
+            var nameUpdate = '<input type="text" id="name-update" required>'
+            var courseUpdate = '<input type="text" id="course-update" required>'
+            var gradeUpdate = '<input type="number" id="grade-update" required>'
+            var addBtn = '<button id="add-update" type="button" class="btn btn-success" name="addBtn"> Confirm </button>'
+            var cancelBtn = '<button id="cancel-update" type="button" class="btn btn-danger">Cancel</button>'
+            
+            $(this).closest('tr').replaceWith( "<tr><td>"+ nameUpdate +"</td><td>"+courseUpdate+"</td><td>"+gradeUpdate+"</td><td> "+addBtn+"</td><td>"+cancelBtn+"</td></tr>");
+            $('#name-update').val(studentArray[trIndexupdate].name);
+            $('#course-update').val(studentArray[trIndexupdate].course);
+            $('#grade-update').val(studentArray[trIndexupdate].grade);
+
+            $('#add-update').click(function(){
+                  var stdNameNew = $("#name-update").val();
+                  var stdCourseNew = $("#course-update").val()
+                  var stdGradeNew = $("#grade-update").val()
+
+                  if(/\d/.test(stdNameNew)==true || Number(stdGradeNew)>100 || stdNameNew == "" || stdCourseNew == "" || stdGradeNew == ""){
+                        $(this).closest('tr').addClass('animated shake');
+                        setTimeout(function() { 
+                              $(trIndexupdate).removeClass('animated shake');
+                          }, 1000);
+                  }
+                  else{
+                        studentArray[trIndexupdate].name = stdNameNew;
+                        studentArray[trIndexupdate].course = stdCourseNew;
+                        studentArray[trIndexupdate].grade = stdGradeNew;
+                        updateStudentList();
+                  }
+            });
+
+            $('#cancel-update').click(function(){
+                  updateStudentList();
+            });
+
       });
 }
 
@@ -119,7 +166,7 @@ function renderStudentOnDom(newStudent) {
       var arrayLength = studentArray.length;
       
       if(isEmpty == false){
-            for(var i=arrayLength-1; i>0;i--){
+            for(var i=arrayLength-1; i>-1;i--){
                   $("#tb1Body tr").remove(); 
             }
       }
@@ -127,13 +174,10 @@ function renderStudentOnDom(newStudent) {
       //insert the info in the 3 cells in each row
       for(var i=0; i<arrayLength; i++){
             isEmpty = false;    
-            $('#tb1Body').append("<tr><td>" + studentArray[i].name + "</td>" + "<td>"  + studentArray[i].course + "</td>" + "<td>"  + studentArray[i].grade + "</td>" + "<td>"  + cancelbutton + "</td></tr>");
-            // row.insertCell(4).innerHTML= updatebutton;
-
+            $('#tb1Body').append("<tr><td>"+studentArray[i].name+"</td><td>"+studentArray[i].course+"</td><td>"+studentArray[i].grade+"</td><td>"+cancelbutton+"<td>"+updatebutton+"</td></tr>");
       }
-      var d = $("tb1Body").index(this);
       
-      $("#tblBody tr:last").addClass('animated fadeInUp');
+      $('#tblAttributes tr:last').addClass('animated fadeInUp');
 }
 
 
@@ -164,10 +208,9 @@ function calculateGradeAverage() {
             countGrade++;
       }
       gradeAverage = totalGrade/countGrade;
-      gradeAverage.toFixed(2);
 
       //calling function to output the average
-      renderGradeAverage(gradeAverage);
+      renderGradeAverage(Math.round(gradeAverage));
 }
 
 
@@ -189,6 +232,7 @@ function renderGradeAverage(gradeAverage) {
  * calls updateStudentList
  */
 function removeStudent(index){
-      studentArray.splice(index,index-1);
+      console.log(index);
+      studentArray.splice(index,1);
       calculateGradeAverage();
 }
